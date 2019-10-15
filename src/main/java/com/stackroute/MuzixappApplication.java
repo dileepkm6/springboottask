@@ -9,14 +9,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 @SpringBootApplication
-public class MuzixappApplication implements CommandLineRunner {
+public class MuzixappApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(MuzixappApplication.class, args);
 	}
-
-	@Override
-	public void run(String... args) throws Exception {
-
-	}
+	
 }
