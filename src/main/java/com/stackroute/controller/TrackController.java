@@ -1,6 +1,7 @@
 package com.stackroute.controller;
 
 import com.stackroute.domain.Track;
+import com.stackroute.exceptions.NullException;
 import com.stackroute.exceptions.TrackAlreadyExistException;
 import com.stackroute.exceptions.TrackNotFoundException;
 import com.stackroute.services.TrackService;
@@ -21,35 +22,21 @@ public class TrackController
     private TrackService trackService;
     @ApiOperation("adding new track in database")
     @PostMapping("/add")
-    public ResponseEntity<?> save(@RequestBody Track track)
+    public ResponseEntity<?> save(@RequestBody Track track) throws TrackAlreadyExistException
     {
         ResponseEntity responseEntity;
-        try
-        {
-            trackService.saveTrack(track);
-            responseEntity=new ResponseEntity<String>("Track successfully saved", HttpStatus.CREATED);
-        }
-        catch (TrackAlreadyExistException e)
-        {
-            responseEntity=new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
-        }
+        trackService.saveTrack(track);
+        responseEntity=new ResponseEntity<String>("Track successfully saved", HttpStatus.CREATED);
         return responseEntity;
     }
     //deleting track from the database
     @ApiOperation("deleting existing track from database")
     @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestBody int trackId)
+    public ResponseEntity<?> delete(@RequestBody int trackId) throws TrackNotFoundException
     {
         ResponseEntity responseEntity;
-        try
-        {
-            trackService.deleteTrack(trackId);
-            responseEntity=new ResponseEntity<String>("Track successfully removed from the database", HttpStatus.OK);
-        }
-        catch (TrackNotFoundException e)
-        {
-            responseEntity=new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
-        }
+        trackService.deleteTrack(trackId);
+        responseEntity=new ResponseEntity<String>("Track successfully removed from the database", HttpStatus.OK);
         return responseEntity;
     }
     //displaying all track
@@ -57,35 +44,29 @@ public class TrackController
     @GetMapping("/getAllTrack")
     public ResponseEntity<?> getAllTrack() {
         ResponseEntity responseEntity;
-        try {
-            responseEntity = new ResponseEntity<List<Track>>(trackService.getAllTrack(), HttpStatus.OK);
-        } catch (Exception e) {
-            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
-        }
+        responseEntity = new ResponseEntity<List<Track>>(trackService.getAllTrack(), HttpStatus.OK);
         return responseEntity;
     }
     //updating comment
     @ApiOperation("updating comment of existing track")
     @PutMapping("/updateComment/{trackId}")
-    public ResponseEntity<?> updateComment(@PathVariable int trackId,@RequestBody String comment) {
+    public ResponseEntity<?> updateComment(@PathVariable int trackId,@RequestBody String comment) throws TrackNotFoundException
+    {
         ResponseEntity responseEntity;
-
-        try
-        {
-            Boolean isUpdated=trackService.updateComment(trackId,comment);
-            responseEntity = new ResponseEntity<String>("comment updated", HttpStatus.OK);
-        }
-       catch (TrackNotFoundException e)
-        {
-            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
-        }
-
+        Boolean isUpdated=trackService.updateComment(trackId,comment);
+        responseEntity = new ResponseEntity<String>("comment updated", HttpStatus.OK);
         return responseEntity;
     }
     @ApiOperation("searching track by trackname")
    @GetMapping("/getByTrackName/{trackName}")
-    public List<Track> getByName(@PathVariable String trackName)
+    public List<Track> getByName(@PathVariable String trackName) throws NullException
    {
        return trackService.getTrackByTrackName(trackName);
+   }
+   @GetMapping("/zero")
+    public void zero()
+   {
+       int a=0;
+       int k=10/a;
    }
 }
