@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface TrackService
 {
-    public Track saveTrack(Track track) throws TrackAlreadyExistException;
-    public List<Track> getAllTrack() throws NullException;
-    public boolean updateComment(int trackId,String comment) throws TrackNotFoundException;
-    public void deleteTrack(int trackId) throws TrackNotFoundException;
-    public List<Track> getTrackByTrackName(String trackName) throws NullException;
-    public boolean getTrackById(int trackId);
+    Track saveTrack(Track track) throws TrackAlreadyExistException;
+    List<Track> getAllTrack() throws NullException;
+    boolean updateComment(int trackId,String comment) throws TrackNotFoundException;
+    Track deleteTrack(int trackId) throws TrackNotFoundException;
+    List<Track> getTrackByTrackName(String trackName) throws NullException;
+    boolean getTrackById(int trackId) throws NullException;
 }

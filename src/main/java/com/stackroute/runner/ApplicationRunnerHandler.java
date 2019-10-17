@@ -11,9 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationRunnerHandler implements ApplicationRunner
 {
+    private TrackService trackService;
     @Autowired
-    @Qualifier("trackService")
-    TrackService trackService;
+    public ApplicationRunnerHandler(@Qualifier("trackService") TrackService trackService) {
+        this.trackService = trackService;
+    }
+
     @Override
     public void run(ApplicationArguments args) throws Exception
     {

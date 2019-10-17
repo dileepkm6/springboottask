@@ -1,4 +1,4 @@
-package com.stackroute.global;
+package com.stackroute.exceptions;
 
 import com.stackroute.exceptions.TrackAlreadyExistException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

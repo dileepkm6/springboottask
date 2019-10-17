@@ -17,7 +17,6 @@ import java.util.List;
 //@Profile("trackDummyService")
 public class TrackDummyServiceImpl implements TrackService
 {
-    @Autowired
     private TrackRepository trackRepository;
     @Autowired
     public TrackDummyServiceImpl(TrackRepository trackRepository) {
@@ -66,16 +65,14 @@ public class TrackDummyServiceImpl implements TrackService
     }
 
     @Override
-    public void deleteTrack(int trackId) throws TrackNotFoundException
+    public Track deleteTrack(int trackId) throws TrackNotFoundException
     {
-        if(trackRepository.existsById(trackId))
-        {
-            trackRepository.deleteById(trackId);
-        }
-        else
+        if(!trackRepository.existsById(trackId))
         {
             throw new TrackNotFoundException("Given trackId is not exist in database");
         }
+        trackRepository.deleteById(trackId);
+        return trackRepository.getOne(trackId);
     }
 
     @Override
@@ -88,12 +85,12 @@ public class TrackDummyServiceImpl implements TrackService
         return trackRepository.getTrackByTrackName(trackName);
     }
     @Override
-    public boolean getTrackById(int trackId)
+    public boolean getTrackById(int trackId) throws NullException
     {
-        if(trackRepository.getOne(trackId)==null)
+        if(!trackRepository.existsById(trackId))
         {
-            return false;
+            throw new NullException();
         }
-        return true;
+        return trackRepository.existsById(trackId);
     }
 }

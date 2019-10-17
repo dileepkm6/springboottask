@@ -20,35 +20,35 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class TrackController
 {
-    @Autowired
-    @Qualifier("trackService")
+
+
     private TrackService trackService;
+    @Autowired
+    public TrackController(@Qualifier("trackService") TrackService trackService) {
+        this.trackService = trackService;
+    }
+
+    private ResponseEntity responseEntity;
     @ApiOperation("adding new track in database")
     @PostMapping("/add")
-    public ResponseEntity<?> save(@RequestBody Track track) throws TrackAlreadyExistException
+    public ResponseEntity<?> saveTrack(@RequestBody Track track) throws TrackAlreadyExistException,NullException
     {
-        ResponseEntity responseEntity;
         if(!trackService.getTrackById(track.getTrackId()))
         {
-            trackService.saveTrack(track);
-            responseEntity=new ResponseEntity("track created successfully",HttpStatus.CREATED);
+            throw new TrackAlreadyExistException("track already exist in database");
         }
         else
         {
-            throw new TrackAlreadyExistException("track already exist in database");
+            trackService.saveTrack(track);
+            responseEntity=new ResponseEntity("created successfully",HttpStatus.CREATED);
         }
         return responseEntity;
     }
     //deleting track from the database
     @ApiOperation("deleting existing track from database")
     @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestBody int trackId) throws TrackNotFoundException
+    public ResponseEntity<?> deleteTrack(@RequestBody int trackId) throws TrackNotFoundException
     {
-        ResponseEntity responseEntity;
-        if(!trackService.getTrackById(trackId))
-        {
-            throw new TrackNotFoundException("given trackId not exist");
-        }
         trackService.deleteTrack(trackId);
         responseEntity=new ResponseEntity<String>("Track successfully removed from the database", HttpStatus.OK);
         return responseEntity;
@@ -57,10 +57,6 @@ public class TrackController
     @ApiOperation("displaying all stored track")
     @GetMapping("/getAllTrack")
     public ResponseEntity<?> getAllTrack() throws NullException{
-        if(trackService.getAllTrack().size()==0)
-        {
-            throw new NullException();
-        }
         ResponseEntity responseEntity;
         responseEntity = new ResponseEntity<List<Track>>(trackService.getAllTrack(), HttpStatus.OK);
         return responseEntity;
@@ -70,11 +66,6 @@ public class TrackController
     @PutMapping("/updateComment/{trackId}")
     public ResponseEntity<?> updateComment(@PathVariable int trackId,@RequestBody String comment) throws TrackNotFoundException
     {
-        ResponseEntity responseEntity;
-        if(!trackService.getTrackById(trackId))
-        {
-            throw new TrackNotFoundException("given trackId not exist");
-        }
         Boolean isUpdated=trackService.updateComment(trackId,comment);
         responseEntity = new ResponseEntity<String>("comment updated", HttpStatus.OK);
         return responseEntity;
@@ -83,11 +74,7 @@ public class TrackController
    @GetMapping("/getByTrackName/{trackName}")
     public List<Track> getByName(@PathVariable String trackName) throws NullException
    {
-       if(trackService.getTrackByTrackName(trackName).size()==0)
-       {
-           throw new NullException();
-       }
        return trackService.getTrackByTrackName(trackName);
    }
-   
+
 }
