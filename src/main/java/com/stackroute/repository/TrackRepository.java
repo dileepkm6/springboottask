@@ -10,6 +10,5 @@ import java.util.List;
 @Repository
 public interface TrackRepository extends JpaRepository<Track,Integer>
 {
-    @Query(value = "select * from TRACK where TRACK_NAME=?1",nativeQuery = true)
     List<Track> getTrackByTrackName(String trackName);
 }

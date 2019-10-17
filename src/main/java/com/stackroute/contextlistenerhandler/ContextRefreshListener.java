@@ -1,4 +1,4 @@
-package com.stackroute.listenerhandler;
+package com.stackroute.contextlistenerhandler;
 
 import com.stackroute.domain.Track;
 import com.stackroute.exceptions.TrackAlreadyExistException;
@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
