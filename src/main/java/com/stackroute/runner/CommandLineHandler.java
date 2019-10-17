@@ -9,13 +9,18 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
+
 @Component
 @PropertySource("classpath:application.properties")
 public class CommandLineHandler implements CommandLineRunner
 {
     @Autowired
-    //@Qualifier("trackService")
+    @Qualifier("trackService")
     TrackService trackService;
+
+    @Autowired
+    private DataSource dataSource;
     @Autowired
     private Environment env;
     @Override
@@ -26,6 +31,7 @@ public class CommandLineHandler implements CommandLineRunner
         track.setComments(env.getProperty("Track.trackComment"));
         //filling data with CommandLineRunner
         trackService.saveTrack(track);
-
+        System.out.println("--------------------------------------------------------------");
+        System.out.println("DataSource :"+dataSource);
     }
 }

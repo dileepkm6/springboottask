@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class GlobalExceptionhandler
+public class GlobalExceptionHandler
 {
-    @ExceptionHandler(TrackAlreadyExistException.class)
+    @ExceptionHandler(Exception.class)
     public String exception(TrackAlreadyExistException e)
     {
 

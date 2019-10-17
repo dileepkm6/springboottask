@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class ContextRefreshListener implements ApplicationListener<ContextRefreshedEvent>
 {
     @Autowired
-    //@Qualifier("trackService")
+    @Qualifier("trackService")
     private TrackService trackService;
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {

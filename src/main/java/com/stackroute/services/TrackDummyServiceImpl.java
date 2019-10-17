@@ -13,15 +13,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-//@Qualifier("trackDummyService")
-@Profile("trackDummyService")
+@Qualifier("trackDummyService")
+//@Profile("trackDummyService")
 public class TrackDummyServiceImpl implements TrackService
 {
+    @Autowired
     private TrackRepository trackRepository;
     @Autowired
     public TrackDummyServiceImpl(TrackRepository trackRepository) {
-
-        System.out.println("TrackDummyServiceImpl");
         this.trackRepository = trackRepository;
     }
 
@@ -47,7 +46,7 @@ public class TrackDummyServiceImpl implements TrackService
         List<Track> allTrack=trackRepository.findAll();
         if(allTrack.size()==0)
         {
-            throw new NullException("no track exist in database");
+            throw new NullException();
         }
         return allTrack;
     }
@@ -84,8 +83,17 @@ public class TrackDummyServiceImpl implements TrackService
     {
         if(trackRepository.findAll().size()==0)
         {
-            throw new NullException("no track exist in database");
+            throw new NullException();
         }
         return trackRepository.getTrackByTrackName(trackName);
+    }
+    @Override
+    public boolean getTrackById(int trackId)
+    {
+        if(trackRepository.getOne(trackId)==null)
+        {
+            return false;
+        }
+        return true;
     }
 }

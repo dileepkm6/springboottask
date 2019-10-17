@@ -18,19 +18,25 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
-@ActiveProfiles("trackDummyService")
 public class TrackController
 {
     @Autowired
-    //@Qualifier("trackDummyService")
+    @Qualifier("trackService")
     private TrackService trackService;
     @ApiOperation("adding new track in database")
     @PostMapping("/add")
     public ResponseEntity<?> save(@RequestBody Track track) throws TrackAlreadyExistException
     {
         ResponseEntity responseEntity;
-        trackService.saveTrack(track);
-        responseEntity=new ResponseEntity<String>("Track successfully saved", HttpStatus.CREATED);
+        if(!trackService.getTrackById(track.getTrackId()))
+        {
+            trackService.saveTrack(track);
+            responseEntity=new ResponseEntity("track created successfully",HttpStatus.CREATED);
+        }
+        else
+        {
+            throw new TrackAlreadyExistException("track already exist in database");
+        }
         return responseEntity;
     }
     //deleting track from the database
@@ -39,6 +45,10 @@ public class TrackController
     public ResponseEntity<?> delete(@RequestBody int trackId) throws TrackNotFoundException
     {
         ResponseEntity responseEntity;
+        if(!trackService.getTrackById(trackId))
+        {
+            throw new TrackNotFoundException("given trackId not exist");
+        }
         trackService.deleteTrack(trackId);
         responseEntity=new ResponseEntity<String>("Track successfully removed from the database", HttpStatus.OK);
         return responseEntity;
@@ -47,6 +57,10 @@ public class TrackController
     @ApiOperation("displaying all stored track")
     @GetMapping("/getAllTrack")
     public ResponseEntity<?> getAllTrack() throws NullException{
+        if(trackService.getAllTrack().size()==0)
+        {
+            throw new NullException();
+        }
         ResponseEntity responseEntity;
         responseEntity = new ResponseEntity<List<Track>>(trackService.getAllTrack(), HttpStatus.OK);
         return responseEntity;
@@ -57,6 +71,10 @@ public class TrackController
     public ResponseEntity<?> updateComment(@PathVariable int trackId,@RequestBody String comment) throws TrackNotFoundException
     {
         ResponseEntity responseEntity;
+        if(!trackService.getTrackById(trackId))
+        {
+            throw new TrackNotFoundException("given trackId not exist");
+        }
         Boolean isUpdated=trackService.updateComment(trackId,comment);
         responseEntity = new ResponseEntity<String>("comment updated", HttpStatus.OK);
         return responseEntity;
@@ -65,6 +83,10 @@ public class TrackController
    @GetMapping("/getByTrackName/{trackName}")
     public List<Track> getByName(@PathVariable String trackName) throws NullException
    {
+       if(trackService.getTrackByTrackName(trackName).size()==0)
+       {
+           throw new NullException();
+       }
        return trackService.getTrackByTrackName(trackName);
    }
    
