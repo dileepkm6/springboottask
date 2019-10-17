@@ -1,6 +1,7 @@
-package com.stackroute.runner;
+package com.stackroute.applicationrunnerhandler;
 
 import com.stackroute.domain.Track;
+import com.stackroute.exceptionhandling.TrackNotFoundException;
 import com.stackroute.services.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,9 +27,10 @@ public class CommandLineHandler implements CommandLineRunner
     }
 
     @Override
-    public void run(String... args) throws Exception
+    public void run(String... args) throws TrackNotFoundException
     {
         Track track=new Track();
+        track.setTrackId(Integer.parseInt(env.getProperty("Track.trackId")));
         track.setTrackName(env.getProperty("Track.trackName"));
         track.setComments(env.getProperty("Track.trackComment"));
         //filling data with CommandLineRunner

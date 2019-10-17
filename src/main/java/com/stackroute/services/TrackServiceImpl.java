@@ -1,14 +1,11 @@
 package com.stackroute.services;
 
 import com.stackroute.domain.Track;
-import com.stackroute.exceptions.NullException;
-import com.stackroute.exceptions.TrackAlreadyExistException;
-import com.stackroute.exceptions.TrackNotFoundException;
+import com.stackroute.exceptionhandling.TrackAlreadyExistException;
+import com.stackroute.exceptionhandling.TrackNotFoundException;
 import com.stackroute.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,22 +24,17 @@ public class TrackServiceImpl implements TrackService
     @Override
     public Track saveTrack(Track track) throws TrackAlreadyExistException {
 
-        Track savedTrack=trackRepository.save(track);
-        if(savedTrack==null)
+        if(trackRepository.existsById(track.getTrackId()))
         {
-            throw new TrackAlreadyExistException("Track already exist in database");
+            throw new TrackAlreadyExistException("track already exist");
         }
+        Track savedTrack=trackRepository.save(track);
         return savedTrack;
     }
     @Override
-    public List<Track> getAllTrack() throws NullException
+    public List<Track> getAllTrack()
     {
-        List<Track> allTrack=trackRepository.findAll();
-        if(allTrack.size()==0)
-        {
-            throw new NullException();
-        }
-        return allTrack;
+        return trackRepository.findAll();
     }
 
     @Override
@@ -51,9 +43,9 @@ public class TrackServiceImpl implements TrackService
 
         if(!trackRepository.existsById(trackId))
         {
-            throw new TrackNotFoundException("Given trackId is not exist in database");
+            throw new TrackNotFoundException();
         }
-        Track trackToChangeCom=trackRepository.getOne(trackId);
+        Track trackToChangeCom=trackRepository.findById(trackId).get();
         trackToChangeCom.setComments(comment);
         trackRepository.save(trackToChangeCom);
         return true;
@@ -62,32 +54,33 @@ public class TrackServiceImpl implements TrackService
     @Override
     public Track deleteTrack(int trackId) throws TrackNotFoundException
     {
+        Track track=trackRepository.findById(trackId).get();
 
         if(!trackRepository.existsById(trackId))
         {
-            throw new TrackNotFoundException("Given trackId is not exist in database");
+            throw new TrackNotFoundException();
         }
         trackRepository.deleteById(trackId);
-        return trackRepository.getOne(trackId);
+        return track;
 
     }
 
     @Override
-    public List<Track> getTrackByTrackName(String trackName) throws NullException
+    public List<Track> getTrackByTrackName(String trackName) throws TrackNotFoundException
     {
         if(trackRepository.findAll().size()==0)
         {
-            throw new NullException();
+            throw new TrackNotFoundException();
         }
         return trackRepository.getTrackByTrackName(trackName);
     }
 
     @Override
-    public boolean getTrackById(int trackId) throws NullException
+    public boolean getTrackById(int trackId) throws TrackNotFoundException
     {
         if(!trackRepository.existsById(trackId))
         {
-            throw new NullException();
+            throw new TrackNotFoundException();
         }
         return trackRepository.existsById(trackId);
     }

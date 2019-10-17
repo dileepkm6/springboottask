@@ -1,13 +1,12 @@
-package com.stackroute.listenerhandler;
+package com.stackroute.contextlistenerhandler;
 
 import com.stackroute.domain.Track;
-import com.stackroute.exceptions.TrackAlreadyExistException;
+import com.stackroute.exceptionhandling.TrackAlreadyExistException;
 import com.stackroute.services.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,6 +22,7 @@ public class ContextRefreshListener implements ApplicationListener<ContextRefres
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         System.out.println("Application Context Refreshed"+contextRefreshedEvent.getSource());
         Track track=new Track();
+        track.setTrackId(3);
         track.setTrackName("ApplicationListener");
         track.setComments("filled by ContextRefreshedEvent");
         try {

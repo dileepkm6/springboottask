@@ -1,7 +1,6 @@
-package com.stackroute.listenerhandler;
+package com.stackroute.contextlistenerhandler;
 
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.ContextStoppedEvent;
 import org.springframework.stereotype.Component;
 
