@@ -8,17 +8,21 @@ import com.stackroute.services.TrackService;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@ActiveProfiles("trackDummyService")
 public class TrackController
 {
     @Autowired
+    //@Qualifier("trackDummyService")
     private TrackService trackService;
     @ApiOperation("adding new track in database")
     @PostMapping("/add")

@@ -3,6 +3,7 @@ package com.stackroute.runner;
 import com.stackroute.domain.Track;
 import com.stackroute.services.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class CommandLineHandler implements CommandLineRunner
 {
     @Autowired
+    //@Qualifier("trackService")
     TrackService trackService;
     @Autowired
     private Environment env;

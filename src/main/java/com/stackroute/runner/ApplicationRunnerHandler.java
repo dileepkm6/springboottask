@@ -3,6 +3,7 @@ package com.stackroute.runner;
 import com.stackroute.domain.Track;
 import com.stackroute.services.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class ApplicationRunnerHandler implements ApplicationRunner
 {
     @Autowired
+    //@Qualifier("trackService")
     TrackService trackService;
     @Override
     public void run(ApplicationArguments args) throws Exception
