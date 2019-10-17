@@ -1,18 +1,17 @@
 package com.stackroute.services;
 
 import com.stackroute.domain.Track;
-import com.stackroute.exceptions.NullException;
-import com.stackroute.exceptions.TrackAlreadyExistException;
-import com.stackroute.exceptions.TrackNotFoundException;
+import com.stackroute.exceptionhandling.TrackAlreadyExistException;
+import com.stackroute.exceptionhandling.TrackNotFoundException;
 
 import java.util.List;
 
 public interface TrackService
 {
     Track saveTrack(Track track) throws TrackAlreadyExistException;
-    List<Track> getAllTrack() throws NullException;
+    List<Track> getAllTrack();
     boolean updateComment(int trackId,String comment) throws TrackNotFoundException;
     Track deleteTrack(int trackId) throws TrackNotFoundException;
-    List<Track> getTrackByTrackName(String trackName) throws NullException;
-    boolean getTrackById(int trackId) throws NullException;
+    List<Track> getTrackByTrackName(String trackName) throws TrackNotFoundException;
+    boolean getTrackById(int trackId) throws TrackNotFoundException;
 }
