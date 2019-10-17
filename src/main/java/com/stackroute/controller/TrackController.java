@@ -42,7 +42,7 @@ public class TrackController
     //displaying all track
     @ApiOperation("displaying all stored track")
     @GetMapping("/getAllTrack")
-    public ResponseEntity<?> getAllTrack() {
+    public ResponseEntity<?> getAllTrack() throws NullException{
         ResponseEntity responseEntity;
         responseEntity = new ResponseEntity<List<Track>>(trackService.getAllTrack(), HttpStatus.OK);
         return responseEntity;
@@ -63,10 +63,5 @@ public class TrackController
    {
        return trackService.getTrackByTrackName(trackName);
    }
-   @GetMapping("/zero")
-    public void zero()
-   {
-       int a=0;
-       int k=10/a;
-   }
+   
 }

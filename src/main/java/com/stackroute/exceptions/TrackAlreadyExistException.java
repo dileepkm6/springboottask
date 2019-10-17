@@ -6,6 +6,6 @@ public class TrackAlreadyExistException extends Exception
     }
 
     public TrackAlreadyExistException(String message) {
-        super(message);
+        super("Track already exist in database");
     }
 }

@@ -6,6 +6,6 @@ public class NullException extends Exception
     }
 
     public NullException(String message) {
-        super(message);
+        super("no track exist in database");
     }
 }

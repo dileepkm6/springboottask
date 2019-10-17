@@ -7,27 +7,29 @@ import com.stackroute.exceptions.TrackNotFoundException;
 import com.stackroute.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
-@Primary
-@Qualifier("trackService")
-public class TrackServiceImpl implements TrackService
+@Qualifier("trackDummyService")
+public class TrackDummyServiceImpl implements TrackService
 {
     private TrackRepository trackRepository;
     @Autowired
-    public TrackServiceImpl(TrackRepository trackRepository) {
+    public TrackDummyServiceImpl(TrackRepository trackRepository) {
+
+        System.out.println("TrackDummyServiceImpl");
         this.trackRepository = trackRepository;
     }
 
     @Override
     public Track saveTrack(Track track) throws TrackAlreadyExistException
     {
+        System.out.println("save method in TrackDummyServiceImpl");
         if(trackRepository.existsById(track.getTrackId()))
         {
-            throw new TrackAlreadyExistException("Track already exist in database");
+            throw new TrackAlreadyExistException("Track already exist in database ");
         }
         Track savedTrack=trackRepository.save(track);
         if(savedTrack==null)
