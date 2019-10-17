@@ -74,17 +74,9 @@ public class TrackDummyServiceImpl implements TrackService
     {
         if(trackRepository.findAll().size()==0)
         {
-            throw new TrackNotFoundException();
+            throw new TrackNotFoundException("no track found here");
         }
         return trackRepository.getTrackByTrackName(trackName);
     }
-    @Override
-    public boolean getTrackById(int trackId) throws TrackNotFoundException
-    {
-        if(!trackRepository.existsById(trackId))
-        {
-            throw new TrackNotFoundException();
-        }
-        return trackRepository.existsById(trackId);
-    }
+
 }

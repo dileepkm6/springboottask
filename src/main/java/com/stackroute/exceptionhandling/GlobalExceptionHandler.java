@@ -15,11 +15,5 @@ public class GlobalExceptionHandler
 
         return e.getMessage();
     }
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({TrackNotFoundException.class,NullPointerException.class})
-    public String handleTrackNotFoundException(TrackNotFoundException e)
-    {
-        return e.getMessage();
-    }
 
 }
