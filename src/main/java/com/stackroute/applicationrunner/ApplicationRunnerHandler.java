@@ -21,6 +21,7 @@ public class ApplicationRunnerHandler implements ApplicationRunner
     public void run(ApplicationArguments args) throws Exception
     {
         Track track=new Track();
+        track.setTrackId(2);
         track.setTrackName("applicationrunner");
         track.setComments("filled by application runner");
         //filling data with CommandLineRunner

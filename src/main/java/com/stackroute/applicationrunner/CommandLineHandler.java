@@ -29,6 +29,7 @@ public class CommandLineHandler implements CommandLineRunner
     public void run(String... args) throws Exception
     {
         Track track=new Track();
+        track.setTrackId(Integer.parseInt(env.getProperty("Track.trackId")));
         track.setTrackName(env.getProperty("Track.trackName"));
         track.setComments(env.getProperty("Track.trackComment"));
         //filling data with CommandLineRunner

@@ -22,6 +22,7 @@ public class ContextRefreshListener implements ApplicationListener<ContextRefres
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         System.out.println("Application Context Refreshed"+contextRefreshedEvent.getSource());
         Track track=new Track();
+        track.setTrackId(1);
         track.setTrackName("ApplicationListener");
         track.setComments("filled by ContextRefreshedEvent");
         try {
