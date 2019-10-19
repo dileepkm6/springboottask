@@ -22,35 +22,62 @@ public class TrackController
     public TrackController(@Qualifier("trackService") TrackService trackService) {
         this.trackService = trackService;
     }
+
     @ApiOperation("adding new track in database")
     @PostMapping("/add")
     public ResponseEntity<?> saveTrack(@RequestBody Track track) throws TrackAlreadyExistException
     {
-        trackService.saveTrack(track);
-        return new ResponseEntity("created successfully",HttpStatus.CREATED);
+        try
+        {
+            trackService.saveTrack(track);
+            return new ResponseEntity<String>("created successfully",HttpStatus.CREATED);
+        }
+        catch (TrackAlreadyExistException e)
+        {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
+        }
+
     }
+
     //deleting track from the database
     @ApiOperation("deleting existing track from database")
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteTrack(@RequestBody int trackId) throws TrackNotFoundException
     {
-        trackService.deleteTrack(trackId);
-        return new ResponseEntity<String>("track deleted successfully", HttpStatus.OK);
+        try
+        {
+            trackService.deleteTrack(trackId);
+            return new ResponseEntity<String>("track deleted successfully", HttpStatus.resolve(200));
+        }
+        catch (TrackNotFoundException e)
+        {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
+        }
     }
+
     //displaying all track
     @ApiOperation("displaying all stored track")
     @GetMapping("/getAllTrack")
     public ResponseEntity<?> getAllTrack() {
         return new ResponseEntity<List<Track>>(trackService.getAllTrack(), HttpStatus.OK);
     }
+
     //updating comment
     @ApiOperation("updating comment of existing track")
     @PutMapping("/updateComment/{trackId}")
     public ResponseEntity<?> updateComment(@PathVariable int trackId,@RequestBody String comment) throws TrackNotFoundException
     {
-        trackService.updateComment(trackId,comment);
-        return new ResponseEntity<String>("comment updated successfully", HttpStatus.OK);
+        try
+        {
+            trackService.updateComment(trackId,comment);
+            return new ResponseEntity<String>("comment updated successfully", HttpStatus.resolve(200));
+        }
+        catch (TrackNotFoundException e)
+        {
+            return new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
+        }
     }
+
     @ApiOperation("searching track by trackname")
     @GetMapping("/getByTrackName/{trackName}")
     public List<Track> getByName(@PathVariable String trackName) throws TrackNotFoundException

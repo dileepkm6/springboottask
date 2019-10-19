@@ -1,6 +1,7 @@
 package com.stackroute.applicationrunner;
 
 import com.stackroute.domain.Track;
+import com.stackroute.exceptionhandling.TrackAlreadyExistException;
 import com.stackroute.services.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,7 +19,7 @@ public class ApplicationRunnerHandler implements ApplicationRunner
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception
+    public void run(ApplicationArguments args) throws Exception, TrackAlreadyExistException
     {
         Track track=new Track();
         track.setTrackId(2);
